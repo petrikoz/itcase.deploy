@@ -1,0 +1,30 @@
+server {
+  listen {{ deploy_nginx_listen | default(80) }};
+  server_name www.{{ deploy_nginx_server_name[1:] }};
+  return 301 $scheme://{{ deploy_nginx_server_name[1:] }}$request_uri;
+}
+
+server {
+
+  listen {{ deploy_nginx_listen | default(80) }};
+
+  server_name {{ deploy_nginx_server_name }};
+
+  location ~* /(static|media) {
+    root {{ deploy_nginx_root }};
+  }
+
+  location ~* /(robots.txt|favicon.ico) {
+    root {{ deploy_nginx_meta_root }};
+  }
+
+  location / {
+    root {{ deploy_nginx_root }};
+    include uwsgi_params;
+    uwsgi_pass {{ deploy_nginx_uwsgi_pass }};
+
+  {% for option in deploy_nginx_uwsgi_options %}
+    {{option}};
+  {% endfor %}
+  }
+}
