@@ -36,5 +36,5 @@ script:
   - test -d /tmp/.venvs/example || exit 1
   - test -f /tmp/.venvs/example/bin/activate || exit 1
   - >
-    cat test -f /tmp/.venvs/example/.project | grep -q '/tmp/example/src'
+    cat /tmp/.venvs/example/.project | grep -q '/tmp/example/src'
     && exit 0 || exit 1
