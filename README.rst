@@ -19,8 +19,7 @@ Usage
       - itcase.deploy
 
       vars:
-        deploy_app_name: example
-        deploy_user: deploy
+        deploy_app_repo: 'https://github.com/petrikoz/itcase.deploy.git'
 
 Variables
 =========
