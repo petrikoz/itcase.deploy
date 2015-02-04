@@ -1,0 +1,39 @@
+language: python
+python: '2.7'
+install: 'pip install ansible'
+script:
+  # Prepare tests
+  - echo localhost > inventory
+
+  # Check syntax
+  - ansible-playbook --syntax-check -i inventory test.yml
+
+  # First run
+  - ansible-playbook -i inventory test.yml
+
+  # Second run Idempotence test
+  - >
+    ansible-playbook -i inventory test.yml | grep -q 'changed=1.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+
+  # Check for role is done
+  - ls -lA /tmp/example
+  - test -d /tmp/example/run || exit 1
+  - test -d /tmp/example/log || exit 1
+  # configs
+  - test -d /tmp/example/etc || exit 1
+  - test -d /tmp/example/etc/uwsgi.ini || exit 1
+  - test -d /tmp/example/etc/nginx.conf || exit 1
+  # sources
+  - test -d /tmp/example/src || exit 1
+  - >
+    cd /tmp/example/src;
+    git remote -v | grep -q 'https://github.com/petrikoz/itcase.deploy'
+    && (echo 'Src test: pass' && exit 0)
+    || (echo 'Src test: fail' && exit 1)
+  # venv
+  - test -d /tmp/.venvs || exit 1
+  - test -d /tmp/.venvs/example || exit 1
+  - test -d /tmp/.venvs/example/bin/activate || exit 1
+  - cat test -d /tmp/.venvs/example/.project | grep -q '/tmp/example/src' || exit 1

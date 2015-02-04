@@ -1,0 +1,10 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    deploy_app_repo: 'https://github.com/petrikoz/itcase.deploy.git'
+  vars_files:
+  - ~/work/my/github/itcase.deploy/src/defaults/main.yml
+  tasks:
+  - include: ~/work/my/github/itcase.deploy/src/tasks/main.yml
+  handlers:
+  - include: ~/work/my/github/itcase.deploy/src/handlers/main.yml
