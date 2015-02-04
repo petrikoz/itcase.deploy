@@ -9,7 +9,7 @@ script:
   - ansible-playbook --syntax-check -i inventory test.yml
 
   # First run
-  - ansible-playbook -i inventory test.yml
+  - ansible-playbook -i inventory test.yml > /dev/null 2>&1
 
   # Second run Idempotence test
   - >
