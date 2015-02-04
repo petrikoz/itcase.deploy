@@ -2,8 +2,11 @@
 ItCase Deploy
 *************
 
+.. image:: https://travis-ci.org/petrikoz/itcase.deploy.svg
+    :target: https://travis-ci.org/petrikoz/itcase.deploy
+
 Extended fork of `Ansible`_ role `Stouts.deploy`_.
-This role deploy projects to ItCase dev server.
+Current role deploy projects to ItCase dev server.
 
 Usage
 =====
