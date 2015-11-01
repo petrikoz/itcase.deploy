@@ -6,7 +6,7 @@ ItCase Deploy
     :target: https://travis-ci.org/petrikoz/itcase.deploy
 
 Extended fork of `Ansible`_ role `Stouts.deploy`_.
-Current role deploy projects to ItCase dev server.
+Current role deploy projects to `ItCase`_ dev server.
 
 Usage
 =====
@@ -65,8 +65,10 @@ Variables
 License
 =======
 
-Licensed under the Apache License, Version 2.0. See the LICENSE file for details.
+Licensed under the Apache License, Version 2.0. See the `LICENSE`_ file for details.
 
 .. _Ansible: https://github.com/ansible/ansible
 .. _Stouts.deploy: https://github.com/Stouts/Stouts.deploy
+.. _ItCase: http://itcase.pro
+.. _LICENSE: LICENSE
 
