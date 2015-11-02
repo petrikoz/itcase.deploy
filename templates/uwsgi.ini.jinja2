@@ -2,8 +2,8 @@
   # For common settings see: /etc/uwsgi/vassals-default.ini
 
   # Define custom variables
-  vassal_name = {{ deploy_uwsgi_name | default(deploy_app_name) }}
-  vassal_path = {{ deploy_uwsgi_path | default(deploy_dir) }}
+  vassal_name = {{ deploy_uwsgi_name }}
+  vassal_path = {{ deploy_uwsgi_path }}
 
   # Per-project settings
   touch-reload = %p
