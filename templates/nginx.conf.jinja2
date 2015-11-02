@@ -9,17 +9,24 @@ server {
   listen {{ deploy_nginx_listen | default(80) }};
 
   server_name {{ deploy_nginx_server_name }};
-
-  location ~* /(static|media) {
-    root {{ deploy_nginx_root }};
+  
+  set $project_root {{ deploy_nginx_root }};
+  set $project_src $project_root/src;
+  
+  location ~* ^/favicon\.[\w]+$ {
+    root $project_src/static/img;
   }
 
-  location ~* /(robots.txt|favicon.ico) {
-    root {{ deploy_nginx_meta_root }};
+  location ~* /(static|media) {
+    root $project_src;
+  }
+
+  location ~* ^/(?!sitemap)[-\w]+\.(txt|xml|html)$ {
+    root $project_sr{{ deploy_nginx_meta_sufix }};
   }
 
   location / {
-    root {{ deploy_nginx_root }};
+    root $project_src;
     include uwsgi_params;
     uwsgi_pass {{ deploy_nginx_uwsgi_pass }};
 
