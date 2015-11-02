@@ -49,13 +49,13 @@ Variables
 
     deploy_nginx_listen: 80
     deploy_nginx_server_name: '.example.com'  # Must start with dot
-    deploy_nginx_root: '{{ deploy_src_dir }}'
-    deploy_nginx_meta_root: '{{ deploy_nginx_root }}/media/uploads/seo'  # Folder wich contains 'robots.txt', 'favicon.ico' and etc. 
+    deploy_nginx_root: '{{ deploy_dir }}'
+    deploy_nginx_meta_sufix: '/media/uploads/seo'  # Folder wich contains 'robots.txt', 'favicon.ico' and etc. Relative from $project_src (see /templates/nginx.conf.jinja2)
     deploy_nginx_uwsgi_pass: 'unix://{{ deploy_run_dir }}/uwsgi.sock'
     deploy_nginx_uwsgi_options: []
 
     deploy_uwsgi_name: '{{ deploy_app_name }}'
-    deploy_uwsgi_path: '{{ deploy_src_dir }}'
+    deploy_uwsgi_path: '{{ deploy_dir }}'
 
     deploy_uwsgi_options: [
       'env = LC_ALL=ru_RU.UTF-8',
