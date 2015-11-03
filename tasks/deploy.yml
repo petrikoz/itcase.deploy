@@ -7,7 +7,12 @@
   user: name={{ deploy_user}} system=yes
 
 - name: Ensure deploy dirs exists
-  file: path={{ item }} state=directory mode=0755 owner={{ deploy_user }} group={{ deploy_group }}
+  file: >
+    path={{ item }}
+    state=directory
+    mode=0755
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
   with_items:
   - '{{ deploy_dir }}'
   - '{{ deploy_etc_dir }}'
@@ -16,22 +21,37 @@
   - '{{ deploy_src_dir }}'
 
 - name: Get source code of deploy app
-  git: repo={{ deploy_app_repo }} dest={{ deploy_src_dir }} version={{ deploy_app_ver | default('HEAD') }}
+  git: >
+    repo={{ deploy_app_repo }}
+    dest={{ deploy_src_dir }}
+    version={{ deploy_app_ver }}
   when: deploy_app_repo is defined
 
 - name: Get venv directory
-  set_fact: deploy_venv_dir={{ deploy_venv_root }}/{{ deploy_venv_name | default(deploy_app_name) }}
+  set_fact: deploy_venv_dir={{ deploy_venv_root }}/{{ deploy_venv_name }}
   when: deploy_venv_dir is not defined
 
 - name: Ensure venv dir exists
-  file: path={{ deploy_venv_dir }} state=directory mode=0755 owner={{ deploy_user }} group={{ deploy_group }}
+  file: >
+    path={{ deploy_venv_dir }}
+    state=directory
+    mode=0755
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
   when: deploy_venv_dir is defined
 
 - name: Make venv
+  become: true
+  become_user: '{{ deploy_user }}'
   shell: virtualenv -p {{ deploy_venv_python }} {{ deploy_venv_options }} {{ deploy_venv_dir }}
 
 - name: Set project home folder for venv
-  lineinfile: dest={{ deploy_venv_dir }}/.project line={{ deploy_src_dir }} create=yes
+  lineinfile: >
+    dest={{ deploy_venv_dir }}/.project
+    line={{ deploy_src_dir }}
+    create=yes
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
 
 - name: Make uWSGI config
   template: src=uwsgi.ini.jinja2 dest={{ deploy_etc_dir }}/uwsgi.ini
