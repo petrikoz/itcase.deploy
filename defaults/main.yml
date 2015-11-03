@@ -32,3 +32,8 @@ deploy_uwsgi_options: [
   'env = LANG=ru_RU.UTF-8'
 ]
 
+deploy_pg_role_name: '{{ deploy_user }}'
+deploy_pg_role_password: '12345'
+deploy_pg_db_name: '{{ deploy_app_name }}'
+deploy_pg_user: 'postgres'
+deploy_pg_password: '12345'
