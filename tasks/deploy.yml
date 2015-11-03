@@ -25,7 +25,16 @@
     repo={{ deploy_app_repo }}
     dest={{ deploy_src_dir }}
     version={{ deploy_app_ver }}
+    accept_hostkey=true
   when: deploy_app_repo is defined
+
+- name: Set owner and group for source code
+  file: >
+    path={{ deploy_src_dir }}
+    state=directory
+    recurse=true
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
 
 - name: Get venv directory
   set_fact: deploy_venv_dir={{ deploy_venv_root }}/{{ deploy_venv_name }}
@@ -54,10 +63,18 @@
     group={{ deploy_group }}
 
 - name: Make uWSGI config
-  template: src=uwsgi.ini.jinja2 dest={{ deploy_etc_dir }}/uwsgi.ini
+  template: >
+    src=uwsgi.ini.jinja2
+    dest={{ deploy_etc_dir }}/uwsgi.ini
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
 
 - name: Make Nginx config
-  template: src=nginx.conf.jinja2 dest={{ deploy_etc_dir }}/nginx.conf
+  template: >
+    src=nginx.conf.jinja2
+    dest={{ deploy_etc_dir }}/nginx.conf
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
   notify:
   - nginx restart
 
