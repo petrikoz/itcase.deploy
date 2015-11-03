@@ -42,10 +42,32 @@
   - nginx restart
 
 - name: Create PostgreSQL role
-  postgresql_user: name={{ deploy_pg_role_name }} password={{ deploy_pg_role_password }} login_user={{ deploy_pg_user }} login_password={{ deploy_pg_password }}
+  postgresql_user: >
+    name={{ deploy_pg_role_name }}
+    password={{ deploy_pg_role_password }}
+    login_user={{ deploy_pg_user }}
+    login_password={{ deploy_pg_password }}
+    login_host='127.0.0.1'
 
 - name: Create PostgreSQL database
-  postgresql_db: name={{ deploy_pg_db_name }} encoding='UTF-8' lc_collate='ru_RU.UTF-8' lc_ctype='ru_RU.UTF-8' template='template0' owner={{ deploy_pg_role_name }} login_user={{ deploy_pg_user }} login_password={{ deploy_pg_password }}
+  postgresql_db: >
+    name={{ deploy_pg_db_name }}
+    encoding='UTF-8'
+    lc_collate='ru_RU.UTF-8'
+    lc_ctype='ru_RU.UTF-8'
+    template='template0'
+    owner={{ deploy_pg_role_name }}
+    login_user={{ deploy_pg_user }}
+    login_password={{ deploy_pg_password }}
+    login_host='127.0.0.1'
 
 - name: Grant PostgreSQL privilegies to database
-  postgresql_privs: db={{ deploy_pg_db_name }} roles={{ deploy_pg_role_name }} privs=ALL type=database login_user={{ deploy_pg_user }} login_password={{ deploy_pg_password }}
+  postgresql_privs: >
+    db={{ deploy_pg_db_name }}
+    roles={{ deploy_pg_role_name }}
+    privs=ALL
+    type=database
+    login_user={{ deploy_pg_user }}
+    login_password={{ deploy_pg_password }}
+    login_host='127.0.0.1'
+
