@@ -22,7 +22,7 @@ server {
   }
 
   location ~* ^/(?!sitemap)[-\w]+\.(txt|xml|html)$ {
-    root $project_sr{{ deploy_nginx_meta_sufix }};
+    root $project_src{{ deploy_nginx_meta_sufix }};
   }
 
   location / {
