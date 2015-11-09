@@ -9,7 +9,7 @@ script:
   - ansible-playbook --syntax-check -i inventory test.yml
 
   # Run
-  - ansible-playbook -i inventory test.yml
+  - ansible-playbook -vvv -i inventory test.yml
 
   # Check users
   - >
