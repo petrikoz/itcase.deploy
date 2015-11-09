@@ -1,5 +1,16 @@
 ---
 
-- include: deploy.yml
-  when: deploy_enabled
-  tags: [deploy]
+- include: user.yml
+  tags: [itcase.deploy.user]
+
+- include: files.yml
+  tags: [itcase.deploy.files]
+
+- include: venv.yml
+  tags: [itcase.deploy.venv]
+
+- include: servers.yml
+  tags: [itcase.deploy.servers]
+
+- include: postgres.yml
+  tags: [itcase.deploy.postgres]

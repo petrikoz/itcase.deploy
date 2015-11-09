@@ -1,0 +1,28 @@
+---
+
+- name: Get venv directory
+  set_fact: deploy_venv_dir={{ deploy_venv_root }}/{{ deploy_venv_name }}
+  when: deploy_venv_dir is not defined
+
+- name: Ensure venv dir exists
+  file: >
+    path={{ deploy_venv_dir }}
+    state=directory
+    mode=0755
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
+  when: deploy_venv_dir is defined
+
+- name: Make venv
+  become: true
+  become_user: '{{ deploy_user }}'
+  shell: virtualenv -p {{ deploy_venv_python }} {{ deploy_venv_options }} {{ deploy_venv_dir }}
+
+- name: Set project home folder for venv
+  lineinfile: >
+    dest={{ deploy_venv_dir }}/.project
+    line={{ deploy_src_dir }}
+    create=yes
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
+

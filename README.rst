@@ -32,8 +32,6 @@ Variables
 
 .. code-block:: yaml
 
-    deploy_enabled: true                      # Enable the role
-
     deploy_user: '{{ ansible_ssh_user }}'     # Set deploy user
     deploy_group: '{{ deploy_user }}'         # Set deploy group
 

@@ -1,0 +1,8 @@
+---
+
+- name: Make sure the deploy group are present
+  group: name={{ deploy_group }}
+
+- name: Make sure the deploy user are present
+  user: name={{ deploy_user}} system=yes
+

@@ -1,0 +1,32 @@
+---
+
+- name: Ensure deploy dirs exists
+  file: >
+    path={{ item }}
+    state=directory
+    mode=0755
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
+  with_items:
+  - '{{ deploy_dir }}'
+  - '{{ deploy_etc_dir }}'
+  - '{{ deploy_log_dir }}'
+  - '{{ deploy_run_dir }}'
+  - '{{ deploy_src_dir }}'
+
+- name: Get source code of deploy app
+  git: >
+    repo={{ deploy_app_repo }}
+    dest={{ deploy_src_dir }}
+    version={{ deploy_app_ver }}
+    accept_hostkey=true
+  when: deploy_app_repo is defined
+
+- name: Set owner and group for source code
+  file: >
+    path={{ deploy_src_dir }}
+    state=directory
+    recurse=true
+    owner={{ deploy_user }}
+    group={{ deploy_group }}
+
