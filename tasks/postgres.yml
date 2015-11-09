@@ -1,7 +1,7 @@
 ---
 
 - name: Ensure python-psycopg2 installed
-  apt: name=python-psycopg2 update_cache=true force=true
+  apt: name=python-psycopg2 update_cache=true
 
 - name: Create PostgreSQL role
   postgresql_user: >

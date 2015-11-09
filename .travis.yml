@@ -2,7 +2,9 @@ sudo: required
 language: python
 python: '2.7'
 install: 'pip install ansible'
-before_script: 'sudo locale-gen ru_RU.UTF-8'
+before_script:
+  - sudo locale-gen ru_RU.UTF-8
+  - sudo service postgresql restart
 script:
   # Prepare tests
   - echo localhost > inventory
