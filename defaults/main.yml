@@ -1,8 +1,8 @@
-deploy_user: '{{ ansible_ssh_user }}'     # Set deploy user
-deploy_group: '{{ deploy_user }}'         # Set deploy group
+deploy_user: '{{ ansible_ssh_user }}'  # Set deploy user
+deploy_group: '{{ deploy_user }}'      # Set deploy group
 
 deploy_app_name: 'example'
-deploy_app_repo: ''                       # E.g. Bitbucket's repo: git@bitbucket.org:OWNER_ACCOUNT_PLACE_HERE/{{ deploy_app_name }}.git
+deploy_app_repo: 'git@github.com:petrikoz/itcase.deploy.git'  # E.g. Bitbucket's repo: git@bitbucket.org:OWNER_ACCOUNT_PLACE_HERE/{{ deploy_app_name }}.git
 deploy_app_ver: 'develop'
 
 deploy_dir: '/tmp/{{ deploy_app_name }}'  # Root deploy directory

@@ -8,16 +8,16 @@ script:
   # Check syntax
   - ansible-playbook --syntax-check -i inventory test.yml
 
-  # First run
+  # Run
   - ansible-playbook -i inventory test.yml | exit 0
 
-  # Second run Idempotence test
+  # Check users
   - >
-    ansible-playbook -i inventory test.yml | grep -q 'failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+    id -u 'user'
+    && (echo 'User test: pass' && exit 0)
+    || (echo 'User test: fail' && exit 1)
 
-  # Check for role is done
+  # Check files
   - ls -lA /tmp/example
   - test -d /tmp/example/run || exit 1
   - test -d /tmp/example/log || exit 1
@@ -25,16 +25,19 @@ script:
   - test -d /tmp/example/etc || exit 1
   - test -f /tmp/example/etc/uwsgi.ini || exit 1
   - test -f /tmp/example/etc/nginx.conf || exit 1
-  # sources
+
+  # Check sources
   - test -d /tmp/example/src || exit 1
   - >
     cd /tmp/example/src;
     git remote -v | grep -q 'https://github.com/petrikoz/itcase.deploy'
     && (echo 'Src test: pass' && exit 0)
     || (echo 'Src test: fail' && exit 1)
-  # venv
+
+  # Check virtualenv
   - test -d /tmp/.venvs/example || exit 1
   - test -f /tmp/.venvs/example/bin/activate || exit 1
+  # virtualenvwrapper config
   - >
     cat /tmp/.venvs/example/.project | grep -q '/tmp/example/src'
     && exit 0 || exit 1
