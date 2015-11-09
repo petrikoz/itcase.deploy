@@ -2,6 +2,8 @@
   connection: local
   vars:
     deploy_user: 'user'
+    deploy_app_repo: 'https://github.com/petrikoz/itcase.deploy.git'
+    deploy_app_ver: 'master'
   vars_files:
   - defaults/main.yml
   tasks:
