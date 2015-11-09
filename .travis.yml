@@ -9,7 +9,10 @@ script:
   - ansible-playbook --syntax-check -i inventory test.yml
 
   # Run
-  - ansible-playbook -vvv -i inventory test.yml
+  - >
+    ansible-playbook -vvv -i inventory test.yml
+    --extra-vars 'deploy_user=user deploy_app_repo=https://github.com/petrikoz/itcase.deploy.git deploy_app_ver=master'
+'
 
   # Check users
   - >
