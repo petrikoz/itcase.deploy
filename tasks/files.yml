@@ -16,9 +16,9 @@
 
 - name: Get source code of deploy app
   git: >
-    repo={{ deploy_app_repo }}
-    dest={{ deploy_src_dir }}
-    version={{ deploy_app_ver }}
+    repo='{{ deploy_app_repo }}'
+    dest='{{ deploy_src_dir }}'
+    version='{{ deploy_app_ver }}'
     accept_hostkey=true
   when: deploy_app_repo is defined
 
