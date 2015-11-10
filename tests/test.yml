@@ -1,13 +1,9 @@
-- hosts: 127.0.0.1
+- hosts: localhost
   connection: local
   become: yes
-  vars_files:
-  - defaults/main.yml
+  roles:
+  - itcase.deploy
   vars:
     deploy_user: 'user'
     deploy_app_repo: 'https://github.com/petrikoz/itcase.deploy.git'
     deploy_app_ver: 'master'
-  tasks:
-  - include: tasks/main.yml
-  handlers:
-  - include: handlers/main.yml
