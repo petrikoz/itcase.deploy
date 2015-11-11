@@ -12,53 +12,51 @@ script:
   - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
 
   # First run
-  - ansible-playbook -i tests/inventory tests/test.yml | exit 0
+  - ansible-playbook -i tests/inventory tests/test.yml | true
 
   # Idempotence test
   - >
     ansible-playbook -i tests/inventory tests/test.yml
     | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+    && (echo 'Idempotence test: pass' && true)
+    || (echo 'Idempotence test: fail' && false)
 
   # Check users
   - >
     id -u 'user'
-    && (echo 'User test: pass' && exit 0)
-    || (echo 'User test: fail' && exit 1)
+    && (echo 'User test: pass' && true)
+    || (echo 'User test: fail' && false)
 
   # Check files
   - ls -lA /tmp/example
-  - test -d /tmp/example/run || exit 1
-  - test -d /tmp/example/log || exit 1
+  - test -d /tmp/example/run || false
+  - test -d /tmp/example/log || false
   # configs
-  - test -d /tmp/example/etc || exit 1
-  - test -f /tmp/example/etc/uwsgi.ini || exit 1
-  - test -f /tmp/example/etc/nginx.conf || exit 1
+  - test -d /tmp/example/etc || false
+  - test -f /tmp/example/etc/uwsgi.ini || false
+  - test -f /tmp/example/etc/nginx.conf || false
 
   # Check sources
-  - test -d /tmp/example/src || exit 1
+  - test -d /tmp/example/src || false
   - >
     cd /tmp/example/src;
     git remote -v | grep -q 'https://github.com/petrikoz/itcase.deploy'
-    && (echo 'Src test: pass' && exit 0)
-    || (echo 'Src test: fail' && exit 1)
+    && (echo 'Src test: pass' && true)
+    || (echo 'Src test: fail' && false)
 
   # Check virtualenv
-  - test -d /tmp/.venvs/example || exit 1
-  - test -f /tmp/.venvs/example/bin/activate || exit 1
+  - test -d /tmp/.venvs/example || false
+  - test -f /tmp/.venvs/example/bin/activate || false
   # virtualenvwrapper config
-  - >
-    cat /tmp/.venvs/example/.project | grep -q '/tmp/example/src'
-    && exit 0 || exit 1
+  - cat /tmp/.venvs/example/.project | grep -q '/tmp/example/src' && true || false
 
   # Check PostgreSQL
   - >
     psql -lqt | cut -d \| -f 1 | grep -w 'example'
-    && (echo 'Database exist: pass' && exit 0)
-    || (echo 'Database exist: fail' && exit 1)
+    && (echo 'Database exist: pass' && true)
+    || (echo 'Database exist: fail' && false)
   - >
     psql -lqt | cut -d \| -f 2 | grep -w 'user'
-    && (echo 'User exist: pass' && exit 0)
-    || (echo 'User exist: fail' && exit 1)
+    && (echo 'User exist: pass' && true)
+    || (echo 'User exist: fail' && false)
 
