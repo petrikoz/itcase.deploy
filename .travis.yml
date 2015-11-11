@@ -17,7 +17,7 @@ script:
   # Idempotence test
   - >
     ansible-playbook -i tests/inventory tests/test.yml
-    | grep -q 'changed=0.*failed=0'
+    | grep -q 'failed=3'
     && (echo 'Idempotence test: pass' && true)
     || (echo 'Idempotence test: fail' && false)
 
