@@ -17,9 +17,9 @@ script:
   # Idempotence test
   - >
     ansible-playbook -i tests/inventory tests/test.yml
-    #| grep -q 'failed=3'
-    #&& (echo 'Idempotence test: pass' && true)
-    #|| (echo 'Idempotence test: fail' && false)
+    | grep -q 'ok=16.*changed=2'
+    && (echo 'Idempotence test: pass' && true)
+    || (echo 'Idempotence test: fail' && false)
 
   # Check users
   - >
