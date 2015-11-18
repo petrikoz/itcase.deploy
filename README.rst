@@ -5,13 +5,10 @@ ItCase Deploy
 .. image:: https://travis-ci.org/petrikoz/itcase.deploy.svg
     :target: https://travis-ci.org/petrikoz/itcase.deploy
 
-Extended fork of `Ansible`_ role `Stouts.deploy`_.
-Current role deploy projects to `ItCase`_ dev server.
+`Ansible`_ role deploy projects to `ItCase`_ dev server.
 
 Usage
 =====
-
-Required `Psycopg2`_ on remote machine for PostgreSQL part.
 
 .. code-block:: yaml
 
@@ -27,16 +24,20 @@ Required `Psycopg2`_ on remote machine for PostgreSQL part.
           prompt: 'password for user "postgres"'
           default: '12345'
 
+For 'postgres' part required `PostgreSQL`_ on remote server.
+And will be install `Psycopg2`_ on remote server.
+If you need skeep this part use flag ``--skip-tags=itcase.deploy.postgres``.
+
 Variables
 =========
 
 .. code-block:: yaml
 
-    deploy_user: '{{ ansible_ssh_user }}'     # Set deploy user
-    deploy_group: '{{ deploy_user }}'         # Set deploy group
+    deploy_user: '{{ ansible_ssh_user }}'  # Set deploy user
+    deploy_group: '{{ deploy_user }}'      # Set deploy group
 
     deploy_app_name: 'example'
-    deploy_app_repo: ''                       # E.g. Bitbucket's repo: git@bitbucket.org:OWNER_ACCOUNT_PLACE_HERE/{{ deploy_app_name }}. ↪ git
+    deploy_app_repo: 'git@github.com:petrikoz/itcase.deploy.git'  # E.g. Bitbucket's repo: git@bitbucket.org:OWNER_ACCOUNT_PLACE_HERE/{{ deploy_app_name }}.git
     deploy_app_ver: 'develop'
 
     deploy_dir: '/tmp/{{ deploy_app_name }}'  # Root deploy directory
@@ -53,7 +54,7 @@ Variables
     deploy_nginx_listen: 80
     deploy_nginx_server_name: '.{{ deploy_app_name }}.itcase.pro'  # Must start with dot
     deploy_nginx_root: '{{ deploy_dir }}'
-    deploy_nginx_meta_sufix: '/media/uploads/seo'  # Folder wich contains 'robots.txt', 'favicon.ico' and etc. Relative from             ↪ $project_src (see /templates/nginx.conf.jinja2)
+    deploy_nginx_meta_sufix: '/media/uploads/seo'  # Folder wich contains 'robots.txt', 'favicon.ico' and etc. Relative from $project_src (see /templates/nginx.conf.jinja2)
     deploy_nginx_uwsgi_pass: 'unix://$project_root/run/uwsgi.sock'
     deploy_nginx_uwsgi_options: []
 
@@ -64,14 +65,20 @@ Variables
       'env = LANG=ru_RU.UTF-8'
     ]
 
+    deploy_pg_role_name: '{{ deploy_user }}'
+    deploy_pg_role_password: '12345'
+    deploy_pg_db_name: '{{ deploy_app_name }}'
+    deploy_pg_user: 'postgres'
+    deploy_pg_password: '12345'
+
 License
 =======
 
 Licensed under the Apache License, Version 2.0. See the `LICENSE`_ file for details.
 
 .. _Ansible: https://github.com/ansible/ansible
-.. _Stouts.deploy: https://github.com/Stouts/Stouts.deploy
 .. _ItCase: http://itcase.pro
-.. _LICENSE: LICENSE
+.. _PostgreSQL: http://www.postgresql.org
 .. _Psycopg2: http://initd.org/psycopg/
+.. _LICENSE: LICENSE
 
