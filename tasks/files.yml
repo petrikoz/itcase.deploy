@@ -15,12 +15,12 @@
   - '{{ deploy_src_dir }}'
 
 - name: Get source code of deploy app
-  git: >
+  git:
     repo='{{ deploy_app_repo }}'
     dest='{{ deploy_src_dir }}'
     version='{{ deploy_app_ver }}'
     accept_hostkey=true
-  when: deploy_app_repo is defined
+  when: deploy_app_repo
 
 - name: Set owner and group for source code
   file: >

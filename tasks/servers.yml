@@ -7,12 +7,29 @@
     owner={{ deploy_user }}
     group={{ deploy_group }}
 
+- set_fact: nginx_conf={{ deploy_etc_dir }}/nginx.conf
+
 - name: Make Nginx config
   template: >
     src=nginx.conf.jinja2
-    dest={{ deploy_etc_dir }}/nginx.conf
+    dest={{ nginx_conf }}
     owner={{ deploy_user }}
     group={{ deploy_group }}
+
+- name: Enable site in Nginx
+  file: state=link force=yes src={{ nginx_conf }} dest=/etc/nginx/sites-enabled/{{ deploy_nginx_server_name }}
+  become: true
+
+- name: Check Nginx config
+  command: nginx -t
+  register: nginx_check
+  ignore_errors: True
+  become: true
+
+- name: Reload Nginx
+  shell: echo 'Reload Nginx'
+  become: true
   notify:
-  - nginx restart
+  - nginx reload
+  when: nginx_check|succeeded
 

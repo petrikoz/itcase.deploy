@@ -7,8 +7,8 @@
 
   # Per-project settings
   touch-reload = %p
-  touch-logrotate = %p
 
-{% for option in deploy_uwsgi_options %}
-  {{ option }}
-{% endfor %}
+  # Application
+  pythonpath = %(vassal_path)/src
+  venv = {{ deploy_venv_root }}/%(vassal_name)
+  module = wsgi
