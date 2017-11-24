@@ -1,16 +1,16 @@
 ---
 
-- include: user.yml
+- import_tasks: user.yml
   tags: [itcase.deploy.user]
 
-- include: files.yml
+- import_tasks: files.yml
   tags: [itcase.deploy.files]
 
-- include: venv.yml
+- import_tasks: venv.yml
   tags: [itcase.deploy.venv]
 
-- include: servers.yml
+- import_tasks: servers.yml
   tags: [itcase.deploy.servers]
 
-- include: postgres.yml
+- import_tasks: postgres.yml
   tags: [itcase.deploy.postgres]

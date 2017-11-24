@@ -1,7 +1,7 @@
 ---
 
 - name: Make uWSGI config
-  template: >
+  template:
     src=uwsgi.ini.jinja2
     dest={{ deploy_etc_dir }}/uwsgi.ini
     owner={{ deploy_user }}
@@ -10,7 +10,7 @@
 - set_fact: nginx_conf={{ deploy_etc_dir }}/nginx.conf
 
 - name: Make Nginx config
-  template: >
+  template:
     src=nginx.conf.jinja2
     dest={{ nginx_conf }}
     owner={{ deploy_user }}
@@ -18,17 +18,21 @@
 
 - name: Enable site in Nginx
   file: state=link force=yes src={{ nginx_conf }} dest=/etc/nginx/sites-enabled/{{ deploy_nginx_server_name }}
-  become: true
+  become: True
+  ignore_errors: True
+  register: site_enabled
 
 - name: Check Nginx config
   command: nginx -t
   register: nginx_check
   ignore_errors: True
-  become: true
+  become: True
+  when: site_enabled|succeeded
 
 - name: Reload Nginx
   shell: echo 'Reload Nginx'
-  become: true
+  become: True
+  ignore_errors: True
   notify:
   - nginx reload
   when: nginx_check|succeeded
